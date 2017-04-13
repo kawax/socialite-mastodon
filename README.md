@@ -18,8 +18,6 @@ composer require revolution/socialite-mastodon
 
 ### config/services.php
 
-Work in only one domain.
-
 ```
     'mastodon' => [
         'domain'        => env('MASTODON_DOMAIN', 'https://mastodon.social'),
@@ -92,6 +90,39 @@ class MastodonController extends Controller
 }
 
 ```
+
+### Customize domain example
+```
+    public function login(Request $request)
+    {
+        //input domain by user
+        $domain = $request->input('domain');
+
+        //get app info. domain, client_id, client_secret ...
+        $server = Server::where('domain', $domain)->first();
+
+        if (!$server) {
+            //create new app
+            //...
+
+            //save app info
+            $server = Server::create([
+                'domain'        => $domain,
+                'client_id'     => '',
+                'client_secret' => '',
+            ]);
+        }
+
+        //change config
+        config(['services.mastodon.domain' => $domain]);
+        config(['services.mastodon.client_id' => $server->client_id]);
+        config(['services.mastodon.client_secret' => $server->client_secret]);
+
+        return Socialite::driver('mastodon')->redirect();
+    }
+
+```
+
 
 ## LICENCE
 MIT

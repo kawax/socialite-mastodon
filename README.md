@@ -68,9 +68,8 @@ Route::get('callback', 'MastodonController@callback');
 
 MastodonController
 
-````
+```
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;

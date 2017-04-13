@@ -2,6 +2,7 @@
 
 namespace Revolution\Socialite\Mastodon;
 
+use Illuminate\Http\Request;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\ProviderInterface;
 use Laravel\Socialite\Two\User;
@@ -17,6 +18,16 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      * {@inheritdoc}
      */
     protected $scopes = ['read'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct(Request $request, $clientId, $clientSecret, $redirectUrl)
+    {
+        parent::__construct($request, $clientId, $clientSecret, $redirectUrl);
+
+        $this->scopes = config('services.mastodon.scope', ['read']);
+    }
 
     /**
      * {@inheritdoc}

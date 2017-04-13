@@ -1,0 +1,25 @@
+{
+  "name": "revolution/socialite-mastodon",
+  "description": "Socialite for Mastodon",
+  "keywords": [
+    "mastodon",
+    "socialite",
+    "laravel"
+  ],
+  "license": "MIT",
+  "require": {
+    "php": ">=5.6.4",
+    "laravel/socialite": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Revolution\\Socialite\\Mastodon\\": "src"
+    }
+  },
+  "authors": [
+    {
+      "name": "kawax",
+      "email": "kawaxbiz@gmail.com"
+    }
+  ]
+}

@@ -118,9 +118,24 @@ class MastodonController extends Controller
         config(['services.mastodon.client_id' => $server->client_id]);
         config(['services.mastodon.client_secret' => $server->client_secret]);
 
+        session(['mastodon_domain' => $domain]);
+        session(['mastodon_server' => $server]);
+
         return Socialite::driver('mastodon')->redirect();
     }
-
+    
+    public function callback()
+    {
+        $domain = session('mastodon_domain');
+        $server = session('mastodon_server');
+    
+        config(['services.mastodon.domain' => $domain]);
+        config(['services.mastodon.client_id' => $server->client_id]);
+        config(['services.mastodon.client_secret' => $server->client_secret]);
+    
+        $user = Socialite::driver('mastodon')->user();
+        dd($user);
+    }
 ```
 
 

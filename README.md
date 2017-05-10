@@ -92,6 +92,10 @@ class MastodonController extends Controller
 ```
 
 ### Customize domain example
+
+Mastodon API for Laravel
+https://github.com/kawax/laravel-mastodon-api
+
 ```
     public function login(Request $request)
     {
@@ -103,13 +107,13 @@ class MastodonController extends Controller
 
         if (!$server) {
             //create new app
-            //...
+            $info = \Mastodon::domain($domain)->app_register('my-app', 'https://', 'read');
 
             //save app info
             $server = Server::create([
                 'domain'        => $domain,
-                'client_id'     => '',
-                'client_secret' => '',
+                'client_id'     => $info['client_id'],
+                'client_secret' => $info['client_secret'],
             ]);
         }
 

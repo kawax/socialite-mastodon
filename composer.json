@@ -21,5 +21,12 @@
       "name": "kawax",
       "email": "kawaxbiz@gmail.com"
     }
-  ]
+  ],
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Revolution\\Socialite\\Mastodon\\MastodonServiceProvider"
+      ]
+    }
+  }
 }

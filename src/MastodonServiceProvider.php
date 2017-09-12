@@ -17,11 +17,11 @@ class MastodonServiceProvider extends SocialiteServiceProvider
     protected $defer = true;
 
     /**
-     * Register the service provider.
+     * Bootstrap the service provider.
      *
      * @return void
      */
-    public function register()
+    public function boot()
     {
         Socialite::extend('mastodon', function ($app) {
             $config = $this->app['config']['services.mastodon'];

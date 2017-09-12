@@ -10,19 +10,18 @@ use Laravel\Socialite\Two\User;
 class MastodonProvider extends AbstractProvider implements ProviderInterface
 {
     /**
-     * {@inheritdoc}
+     * The scopes being requested.
+     *
+     * @var array
      */
     protected $scopes = ['read'];
 
     /**
-     * {@inheritdoc}
+     * The separating character for the requested scopes.
+     *
+     * @var string
      */
-    public function __construct(Request $request, $clientId, $clientSecret, $redirectUrl)
-    {
-        parent::__construct($request, $clientId, $clientSecret, $redirectUrl);
-
-        $this->scopes = config('services.mastodon.scope', ['read']);
-    }
+    protected $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}
@@ -61,12 +60,13 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(config('services.mastodon.domain') . '/api/v1/accounts/verify_credentials',
-            [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $token,
-                ],
-            ]);
+        $url = config('services.mastodon.domain') . '/api/v1/accounts/verify_credentials';
+
+        $response = $this->getHttpClient()->get($url, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $token,
+            ],
+        ]);
 
         return json_decode($response->getBody(), true);
     }

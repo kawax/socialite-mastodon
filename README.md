@@ -94,6 +94,13 @@ class MastodonController extends Controller
 
 ```
 
+Set scopes
+```php
+return Socialite::driver('mastodon')
+           ->setScopes(config('services.mastodon.scope', ['read']))
+           ->redirect();
+```
+
 ### Customize domain example
 
 Mastodon API for Laravel

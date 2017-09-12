@@ -5,6 +5,8 @@ namespace Revolution\Socialite\Mastodon;
 use Laravel\Socialite\SocialiteServiceProvider;
 use Laravel\Socialite\Contracts\Factory;
 
+use Socialite;
+
 class MastodonServiceProvider extends SocialiteServiceProvider
 {
     /**
@@ -21,8 +23,10 @@ class MastodonServiceProvider extends SocialiteServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Factory::class, function ($app) {
-            return new MastodonManager($app);
+        Socialite::extend('mastodon', function ($app) {
+            $config = $this->app['config']['services.mastodon'];
+
+            return Socialite::buildProvider(MastodonProvider::class, $config);
         });
     }
 }

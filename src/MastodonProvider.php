@@ -10,11 +10,6 @@ use Laravel\Socialite\Two\User;
 class MastodonProvider extends AbstractProvider implements ProviderInterface
 {
     /**
-     * Unique Provider Identifier.
-     */
-    const IDENTIFIER = 'MASTODON';
-
-    /**
      * {@inheritdoc}
      */
     protected $scopes = ['read'];
@@ -48,11 +43,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * Get the POST fields for the token request.
-     *
-     * @param  string $code
-     *
-     * @return array
+     * {@inheritdoc}
      */
     protected function getTokenFields($code)
     {

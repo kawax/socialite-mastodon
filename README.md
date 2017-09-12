@@ -9,6 +9,8 @@ composer require revolution/socialite-mastodon
 
 ### config/app.php
 
+Not necessary in Laravel >= 5.5
+
 ```
     'providers' => [
         ...
@@ -60,6 +62,8 @@ returns json
 
 
 ## Usage
+
+### Use one instance
 routes/web.php
 ```
 Route::get('/', 'MastodonController@index');
@@ -68,8 +72,7 @@ Route::get('callback', 'MastodonController@callback');
 
 MastodonController
 
-```
-<?php
+```php
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -96,7 +99,7 @@ class MastodonController extends Controller
 Mastodon API for Laravel
 https://github.com/kawax/laravel-mastodon-api
 
-```
+```php
     public function login(Request $request)
     {
         //input domain by user

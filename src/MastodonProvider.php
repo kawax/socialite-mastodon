@@ -46,13 +46,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenFields($code)
     {
-        return [
-            'client_id'     => $this->clientId,
-            'client_secret' => $this->clientSecret,
-            'code'          => $code,
-            'redirect_uri'  => $this->redirectUrl,
-            'grant_type'    => 'authorization_code',
-        ];
+        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
     }
 
     /**

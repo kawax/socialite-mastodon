@@ -22,7 +22,7 @@ Not necessary in Laravel >= 5.5
 
 ```
     'mastodon' => [
-        'domain'        => env('MASTODON_DOMAIN', 'https://mastodon.social'),
+        'domain'        => env('MASTODON_DOMAIN'),
         'client_id'     => env('MASTODON_ID'),
         'client_secret' => env('MASTODON_SECRET'),
         'redirect'      => env('MASTODON_REDIRECT'),
@@ -42,24 +42,10 @@ MASTODON_REDIRECT=https://example.com/callback
 
 ## Create App and get the client_id & client_secret
 
-Can't create by browser?  
-Can't update app info.
-
-```
-curl -F "client_name={App Name}" -F "redirect_uris={redirect_url}" -F "scopes=read" https://{domain}/api/v1/apps
-```
-
-returns json
-
-```
-{
-  "id": ,
-  "redirect_uri": "",
-  "client_id": "",
-  "client_secret": ""
-}
-```
-
+1. Go to your Mastodon's user preferences page.
+2. Go to development page.
+3. Create new application.
+4. Get `Client key` and `Client secret`
 
 ## Usage
 
@@ -113,11 +99,12 @@ https://github.com/kawax/laravel-mastodon-api
         $domain = $request->input('domain');
 
         //get app info. domain, client_id, client_secret ...
+        //Server is Eloquent Model
         $server = Server::where('domain', $domain)->first();
 
-        if (!$server) {
+        if (empty($server)) {
             //create new app
-            $info = \Mastodon::domain($domain)->app_register('my-app', 'https://', 'read');
+            $info = Mastodon::domain($domain)->createApp('my-app', 'https://example.com/callback', 'read');
 
             //save app info
             $server = Server::create([

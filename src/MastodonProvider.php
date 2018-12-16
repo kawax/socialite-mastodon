@@ -2,7 +2,7 @@
 
 namespace Revolution\Socialite\Mastodon;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\ProviderInterface;
 use Laravel\Socialite\Two\User;
@@ -28,7 +28,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        $url = config('services.mastodon.domain') . '/oauth/authorize/';
+        $url = Config::get('services.mastodon.domain') . '/oauth/authorize/';
 
         return $this->buildAuthUrlFromBase($url, $state);
     }
@@ -38,7 +38,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return config('services.mastodon.domain') . '/oauth/token';
+        return Config::get('services.mastodon.domain') . '/oauth/token';
     }
 
     /**
@@ -54,7 +54,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $url = config('services.mastodon.domain') . '/api/v1/accounts/verify_credentials';
+        $url = Config::get('services.mastodon.domain') . '/api/v1/accounts/verify_credentials';
 
         $response = $this->getHttpClient()->get($url, [
             'headers' => [
@@ -73,9 +73,9 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
         return (new User())->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => $user['acct'],
-            'name'     => $user['display_name'],
+            'name'     => $user['display_name'] ?? '',
             'email'    => '',
-            'avatar'   => $user['avatar'],
+            'avatar'   => $user['avatar'] ?? '',
         ]);
     }
 }

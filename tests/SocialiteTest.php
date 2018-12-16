@@ -6,6 +6,7 @@ use Mockery as m;
 use PHPUnit\Framework\TestCase;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\SocialiteManager;
 
 use Revolution\Socialite\Mastodon\MastodonProvider;
@@ -34,10 +35,29 @@ class SocialiteTest extends TestCase
         });
     }
 
+    public function tearDown()
+    {
+        m::close();
+    }
+
     public function testInstance()
     {
         $provider = $this->socialite->driver('mastodon');
 
         $this->assertInstanceOf(MastodonProvider::class, $provider);
+    }
+
+    public function testRedirect()
+    {
+        $request = Request::create('foo');
+        $request->setLaravelSession($session = m::mock('Illuminate\Contracts\Session\Session'));
+        $session->shouldReceive('put')->once();
+
+        Config::shouldReceive('get')->once()->with('services.mastodon.domain')->andReturn('http://localhost');
+
+        $provider = new MastodonProvider($request, 'client_id', 'client_secret', 'redirect');
+        $response = $provider->redirect();
+
+        $this->assertStringStartsWith('http://localhost', $response->getTargetUrl());
     }
 }

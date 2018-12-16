@@ -7,17 +7,6 @@ https://github.com/tootsuite/mastodon
 composer require revolution/socialite-mastodon
 ```
 
-### config/app.php
-
-Not necessary in Laravel >= 5.5
-
-```
-    'providers' => [
-        ...
-        Revolution\Socialite\Mastodon\MastodonServiceProvider::class,
-    ]
-```
-
 ### config/services.php
 
 ```

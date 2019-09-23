@@ -14,7 +14,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      *
      * @var array
      */
-    protected $scopes = ['read'];
+    protected $scopes = ['read', 'write'];
 
     /**
      * The separating character for the requested scopes.

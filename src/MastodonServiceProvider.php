@@ -2,10 +2,10 @@
 
 namespace Revolution\Socialite\Mastodon;
 
-use Laravel\Socialite\SocialiteServiceProvider;
+use Illuminate\Support\ServiceProvider;
 use Laravel\Socialite\Facades\Socialite;
 
-class MastodonServiceProvider extends SocialiteServiceProvider
+class MastodonServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the service provider.

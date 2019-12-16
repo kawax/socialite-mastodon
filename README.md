@@ -2,6 +2,9 @@
 
 https://github.com/tootsuite/mastodon
 
+## Requirements
+- PHP >= 7.2
+
 ## Install
 ```
 composer require revolution/socialite-mastodon

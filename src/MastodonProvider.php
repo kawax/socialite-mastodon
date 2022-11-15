@@ -68,7 +68,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
 
         return array_merge(json_decode($response->getBody(), true), [
             'server' => Config::get('services.mastodon.domain'),
-            'userIdentifier' => '@' . $userObject['username'] . '@' . $url_parsed['host']
+            'user_identifier' => '@' . $userObject['username'] . '@' . $url_parsed['host']
         ]);
     }
 

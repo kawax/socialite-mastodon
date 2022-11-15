@@ -61,9 +61,9 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
                 'Authorization' => 'Bearer ' . $token,
             ],
         ]);
-        
+
         $url_parsed = parse_url(Config::get('services.mastodon.domain'));
-        
+
         $userObject = json_decode($response->getBody(), true);
 
         return array_merge(json_decode($response->getBody(), true), [

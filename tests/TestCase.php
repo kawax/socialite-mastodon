@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests;
 
 use Laravel\Socialite\SocialiteServiceProvider;

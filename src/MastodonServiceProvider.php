@@ -12,7 +12,7 @@ class MastodonServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Socialite::extend('mastodon', function ($app) {
             $config = $app['config']['services.mastodon'];

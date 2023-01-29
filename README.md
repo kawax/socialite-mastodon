@@ -1,9 +1,9 @@
 # Socialite for Mastodon
 
-https://github.com/tootsuite/mastodon
+https://github.com/mastodon/mastodon
 
 ## Requirements
-- PHP >= 7.2
+- PHP >= 8.0
 
 ## Install
 ```

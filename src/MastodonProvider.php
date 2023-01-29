@@ -28,7 +28,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        $url = Config::get('services.mastodon.domain') . '/oauth/authorize/';
+        $url = Config::get('services.mastodon.domain').'/oauth/authorize/';
 
         return $this->buildAuthUrlFromBase($url, $state);
     }
@@ -38,7 +38,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return Config::get('services.mastodon.domain') . '/oauth/token';
+        return Config::get('services.mastodon.domain').'/oauth/token';
     }
 
     /**
@@ -54,22 +54,15 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $url = Config::get('services.mastodon.domain') . '/api/v1/accounts/verify_credentials';
+        $url = Config::get('services.mastodon.domain').'/api/v1/accounts/verify_credentials';
 
         $response = $this->getHttpClient()->get($url, [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        $url_parsed = parse_url(Config::get('services.mastodon.domain'));
-
-        $userObject = json_decode($response->getBody(), true);
-
-        return array_merge(json_decode($response->getBody(), true), [
-            'server' => Config::get('services.mastodon.domain'),
-            'user_identifier' => '@' . $userObject['username'] . '@' . $url_parsed['host']
-        ]);
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -77,12 +70,17 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
+        $url_host = parse_url($domain = Config::get('services.mastodon.domain'), PHP_URL_HOST);
+
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
-            'nickname' => $user['acct'],
-            'name'     => $user['display_name'] ?? '',
-            'email'    => '',
-            'avatar'   => $user['avatar'] ?? '',
+            'id' => $user['id'],
+            'nickname' => $user['username'],
+            'name' => $user['display_name'] ?? '',
+            'email' => '',
+            'avatar' => $user['avatar'] ?? '',
+            'server' => $domain,
+            'user_identifier' => '@'.$user['username'].'@'.$url_host,
+            'acct' => $user['username'].'@'.$url_host,
         ]);
     }
 }

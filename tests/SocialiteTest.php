@@ -2,10 +2,10 @@
 
 namespace Tests;
 
-use Mockery as m;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\Facades\Socialite;
+use Mockery as m;
 use Revolution\Socialite\Mastodon\MastodonProvider;
 
 class SocialiteTest extends TestCase

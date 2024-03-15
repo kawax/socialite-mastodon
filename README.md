@@ -5,6 +5,8 @@ https://github.com/mastodon/mastodon
 ## Requirements
 - PHP >= 8.0
 
+> No version restrictions. It may stop working in future versions.
+
 ## Install
 ```
 composer require revolution/socialite-mastodon
@@ -12,7 +14,7 @@ composer require revolution/socialite-mastodon
 
 ### config/services.php
 
-```
+```php
     'mastodon' => [
         'domain'        => env('MASTODON_DOMAIN'),
         'client_id'     => env('MASTODON_ID'),
@@ -29,7 +31,6 @@ MASTODON_DOMAIN=https://mastodon.social
 MASTODON_ID=
 MASTODON_SECRET=
 MASTODON_REDIRECT=https://example.com/callback
-
 ```
 
 ## Create App and get the client_id & client_secret
@@ -43,9 +44,9 @@ MASTODON_REDIRECT=https://example.com/callback
 
 ### Use one instance
 routes/web.php
-```
-Route::get('/', 'MastodonController@index');
-Route::get('callback', 'MastodonController@callback');
+```php
+Route::get('/', [MastodonController::class, 'index']);
+Route::get('callback', [MastodonController::class, 'callback']);
 ```
 
 MastodonController
@@ -69,7 +70,6 @@ class MastodonController extends Controller
         dd($user);
     }
 }
-
 ```
 
 Set scopes

@@ -23,12 +23,11 @@ class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set(
-            'services.mastodon',
+        $app['config']->set('services.mastodon',
             [
-                'client_id'     => 'test',
+                'client_id' => 'test',
                 'client_secret' => 'test',
-                'redirect'      => 'https://localhost',
+                'redirect' => 'https://localhost',
             ]
         );
     }

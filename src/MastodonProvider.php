@@ -26,7 +26,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         $url = Config::get('services.mastodon.domain').'/oauth/authorize/';
 
@@ -36,7 +36,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return Config::get('services.mastodon.domain').'/oauth/token';
     }
@@ -44,7 +44,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenFields($code)
+    protected function getTokenFields($code): array
     {
         return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
     }
@@ -68,7 +68,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function mapUserToObject(array $user)
+    protected function mapUserToObject(array $user): User
     {
         $url_host = parse_url($domain = Config::get('services.mastodon.domain'), PHP_URL_HOST);
 

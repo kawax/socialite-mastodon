@@ -7,3 +7,4 @@
 .styleci.yml export-ignore
 .travis.yml export-ignore
 phpunit.xml export-ignore
+/.github export-ignore

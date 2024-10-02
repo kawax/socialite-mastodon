@@ -102,7 +102,7 @@ use App\Models\Server;
 
         if (empty($server)) {
             //create new app
-            $info = Mastodon::domain($domain)->createApp('my-app', 'https://example.com/callback', 'read');
+            $info = Mastodon::domain($domain)->createApp(client_name: 'my-app', redirect_uris: 'https://example.com/callback', scopes: 'read write');
 
             //save app info
             $server = Server::create([

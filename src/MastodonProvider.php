@@ -59,9 +59,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenFields($code): array
     {
-        $fields = array_merge(parent::getTokenFields($code), ['grant_type' => 'authorization_code']);
-
-        return $this->updateFields($fields);
+        return $this->updateFields(parent::getTokenFields($code));
     }
 
     /**

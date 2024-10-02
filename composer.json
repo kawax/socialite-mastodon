@@ -13,7 +13,8 @@
     "laravel/socialite": "*"
   },
   "require-dev": {
-    "orchestra/testbench": "^9.0"
+    "orchestra/testbench": "^9.0",
+    "revolution/laravel-mastodon-api": "^3.1"
   },
   "autoload": {
     "psr-4": {

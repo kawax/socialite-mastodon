@@ -20,17 +20,16 @@ composer require revolution/socialite-mastodon
         'client_id'     => env('MASTODON_ID'),
         'client_secret' => env('MASTODON_SECRET'),
         'redirect'      => env('MASTODON_REDIRECT'),
-        //'read', 'write', 'follow'
-        'scope'         => ['read'],
+        'scope'         => ['read', 'write'],
     ],
 ```
 
 ### .env
 ```
-MASTODON_DOMAIN=https://mastodon.social
+MASTODON_DOMAIN=https://localhost
 MASTODON_ID=
 MASTODON_SECRET=
-MASTODON_REDIRECT=https://example.com/callback
+MASTODON_REDIRECT=https://localhost/callback
 ```
 
 ## Create App and get the client_id & client_secret
@@ -79,6 +78,8 @@ return Socialite::driver('mastodon')
            ->redirect();
 ```
 
+https://docs.joinmastodon.org/api/oauth-scopes/
+
 ### Customize domain example
 
 Mastodon API for Laravel
@@ -106,31 +107,20 @@ https://github.com/kawax/laravel-mastodon-api
             ]);
         }
 
-        //change config
-        config(['services.mastodon.domain' => $domain]);
-        config(['services.mastodon.client_id' => $server->client_id]);
-        config(['services.mastodon.client_secret' => $server->client_secret]);
-
         session(['mastodon_domain' => $domain]);
-        session(['mastodon_server' => $server]);
 
-        return Socialite::driver('mastodon')->redirect();
+        return Socialite::driver('mastodon')->with(['domain' => $domain, 'client_id' => $server->client_id])->redirect();
     }
     
     public function callback()
     {
         $domain = session('mastodon_domain');
-        $server = session('mastodon_server');
-    
-        config(['services.mastodon.domain' => $domain]);
-        config(['services.mastodon.client_id' => $server->client_id]);
-        config(['services.mastodon.client_secret' => $server->client_secret]);
-    
-        $user = Socialite::driver('mastodon')->user();
+        $server = Server::where('domain', $domain)->first();
+
+        $user = Socialite::driver('mastodon')->with(['domain' => $domain, 'client_id' => $server->client_id, 'client_secret' => $server->client_secret])->user();
         dd($user);
     }
 ```
-
 
 ## LICENCE
 MIT

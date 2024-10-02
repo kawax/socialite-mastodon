@@ -3,6 +3,7 @@
 namespace Revolution\Socialite\Mastodon;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\ProviderInterface;
 use Laravel\Socialite\Two\User;
@@ -14,7 +15,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      *
      * @var array
      */
-    protected $scopes = ['read'];
+    protected $scopes = ['read', 'write'];
 
     /**
      * The separating character for the requested scopes.
@@ -28,7 +29,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state): string
     {
-        $url = Config::get('services.mastodon.domain').'/oauth/authorize/';
+        $url = $this->domain().'/oauth/authorize/';
 
         return $this->buildAuthUrlFromBase($url, $state);
     }
@@ -36,9 +37,21 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
+    protected function getCodeFields($state = null): array
+    {
+        $fields = parent::getCodeFields($state);
+
+        unset($fields['client_secret']);
+
+        return $this->updateFields($fields);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getTokenUrl(): string
     {
-        return Config::get('services.mastodon.domain').'/oauth/token';
+        return $this->domain().'/oauth/token';
     }
 
     /**
@@ -46,7 +59,9 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenFields($code): array
     {
-        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
+        $fields = array_merge(parent::getTokenFields($code), ['grant_type' => 'authorization_code']);
+
+        return $this->updateFields($fields);
     }
 
     /**
@@ -54,7 +69,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $url = Config::get('services.mastodon.domain').'/api/v1/accounts/verify_credentials';
+        $url = $this->domain().'/api/v1/accounts/verify_credentials';
 
         $response = $this->getHttpClient()->get($url, [
             'headers' => [
@@ -70,7 +85,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user): User
     {
-        $url_host = parse_url($domain = Config::get('services.mastodon.domain'), PHP_URL_HOST);
+        $url_host = parse_url($domain = $this->domain(), PHP_URL_HOST);
 
         return (new User())->setRaw($user)->map([
             'id' => $user['id'],
@@ -82,5 +97,17 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
             'user_identifier' => '@'.$user['username'].'@'.$url_host,
             'acct' => $user['username'].'@'.$url_host,
         ]);
+    }
+
+    protected function domain(): string
+    {
+        return Str::rtrim($this->parameters['domain'] ?? Config::get('services.mastodon.domain'), '/');
+    }
+
+    protected function updateFields($fields): array
+    {
+        unset($fields['domain']);
+
+        return $fields;
     }
 }

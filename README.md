@@ -54,7 +54,7 @@ MastodonController
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Socialite;
+use Laravel\Socialite\Facades\Socialite;
 
 class MastodonController extends Controller
 {
@@ -86,6 +86,11 @@ Mastodon API for Laravel
 https://github.com/kawax/laravel-mastodon-api
 
 ```php
+use Illuminate\Http\Request;
+use Laravel\Socialite\Facades\Socialite;
+use Revolution\Mastodon\Facades\Mastodon;
+use App\Models\Server;
+
     public function login(Request $request)
     {
         //input domain by user

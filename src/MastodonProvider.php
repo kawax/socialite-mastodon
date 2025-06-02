@@ -83,17 +83,18 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user): User
     {
-        $url_host = parse_url($domain = $this->domain(), PHP_URL_HOST);
+        $domain = $this->domain();
+        $url_host = parse_url($domain, PHP_URL_HOST) ?? '';
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id' => $user['id'],
-            'nickname' => $user['username'],
+            'nickname' => $user['username'] ?? '',
             'name' => $user['display_name'] ?? '',
             'email' => '',
             'avatar' => $user['avatar'] ?? '',
             'server' => $domain,
-            'user_identifier' => '@'.$user['username'].'@'.$url_host,
-            'acct' => $user['username'].'@'.$url_host,
+            'user_identifier' => '@'.($user['username'] ?? '').'@'.$url_host,
+            'acct' => ($user['username'] ?? '').'@'.$url_host,
         ]);
     }
 

@@ -14,7 +14,8 @@
   },
   "require-dev": {
     "orchestra/testbench": "^9.0||^10.0",
-    "revolution/laravel-mastodon-api": "^3.1"
+    "revolution/laravel-mastodon-api": "^3.1",
+    "laravel/pint": "^1.22"
   },
   "autoload": {
     "psr-4": {

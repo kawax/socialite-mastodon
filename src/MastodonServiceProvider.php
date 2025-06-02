@@ -9,8 +9,6 @@ class MastodonServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the service provider.
-     *
-     * @return void
      */
     public function boot(): void
     {

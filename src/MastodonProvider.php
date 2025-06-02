@@ -85,7 +85,7 @@ class MastodonProvider extends AbstractProvider implements ProviderInterface
     {
         $url_host = parse_url($domain = $this->domain(), PHP_URL_HOST);
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id' => $user['id'],
             'nickname' => $user['username'],
             'name' => $user['display_name'] ?? '',

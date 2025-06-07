@@ -83,7 +83,7 @@ https://docs.joinmastodon.org/api/oauth-scopes/
 ### Customize domain example
 
 Mastodon API for Laravel
-https://github.com/kawax/laravel-mastodon-api
+https://github.com/invokable/laravel-mastodon-api
 
 ```php
 use Illuminate\Http\Request;
